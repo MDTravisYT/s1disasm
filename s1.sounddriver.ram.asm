@@ -30,29 +30,29 @@ LoopCounters:		ds.l	3	; All tracks (multiple bytes)
 GoSubStack:				; All tracks (multiple bytes. This label won't get to be used because of an optimisation that just uses SMPS_Track.len)
 	endstruct
 
-SMPS_RAM struct DOTS
+sound_ram struct DOTS
 v_1up_ram:
-v_sndprio:		ds.b	1	; sound priority (priority of new music/SFX must be higher or equal to this value or it won't play; bit 7 of priority being set prevents this value from changing)
-v_main_tempo_timeout:	ds.b	1	; Counts down to zero; when zero, resets to next value and delays song by 1 frame
-v_main_tempo:		ds.b	1	; Used for music only
-f_pausemusic:		ds.b	1	; flag set to stop music when paused
-v_fadeout_counter:	ds.b	1
+prfl:		ds.b	1	; sound priority (priority of new music/SFX must be higher or equal to this value or it won't play; bit 7 of priority being set prevents this value from changing)
+rcunt:	ds.b	1	; Counts down to zero; when zero, resets to next value and delays song by 1 frame
+cuntst:		ds.b	1	; Used for music only
+t_flg:		ds.b	1	; flag set to stop music when paused
+foutfl:	ds.b	1
 			ds.b	1	; unused
-v_fadeout_delay:	ds.b	1
-v_communication_byte:	ds.b	1	; used in Ristar to sync with a boss' attacks; unused here
-f_updating_dac:		ds.b	1	; $80 if updating DAC, $00 otherwise
-v_sound_id:		ds.b	1	; sound or music copied from below
-v_soundqueue_start:
-v_soundqueue0:		ds.b	1	; sound or music to play
-v_soundqueue1:		ds.b	1	; special sound to play
-v_soundqueue2:		ds.b	1	; unused sound to play
+fouttm:	ds.b	1
+pause_flg:	ds.b	1	; used in Ristar to sync with a boss' attacks; unused here
+rythm_flag:		ds.b	1	; $80 if updating DAC, $00 otherwise
+kyflag0:		ds.b	1	; sound or music copied from below
+kyflag:
+buf1:		ds.b	1	; sound or music to play
+buf2:		ds.b	1	; special sound to play
+buf3:		ds.b	1	; unused sound to play
 v_soundqueue_end:
 			ds.b	1	; unused
-f_voice_selector:	ds.b	1	; $00 = use music voice pointer; $40 = use special voice pointer; $80 = use track voice pointer
+se_mode_flg:	ds.b	1	; $00 = use music voice pointer; $40 = use special voice pointer; $80 = use track voice pointer
 			ds.b	9
 v_voice_ptr:		ds.l	1	; voice data pointer (4 bytes)
 			ds.b	4	; unused
-v_special_voice_ptr:	ds.l	1	; voice data pointer for special SFX ($D0-$DF) (4 bytes)
+sng_voice_addr:	ds.l	1	; voice data pointer for special SFX ($D0-$DF) (4 bytes)
 f_fadein_flag:		ds.b	1	; Flag for fade in
 v_fadein_delay:		ds.b	1
 v_fadein_counter:	ds.b	1	; Timer for fade in/out
@@ -105,5 +105,5 @@ v_spcsfx_psg_tracks_end:
 v_spcsfx_track_ram_end:
 v_track_ram_end:
 
-v_1up_ram_copy:		ds.b	SMPS_RAM.v_1up_ram_end-SMPS_RAM.v_1up_ram
+v_1up_ram_copy:		ds.b	sound_ram.v_1up_ram_end-sound_ram.v_1up_ram
 	endstruct
