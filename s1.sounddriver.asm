@@ -22,35 +22,32 @@ pcmLoopCounterBase function sampleRate,baseCycles, 1+(Z80_Clock/(sampleRate)-(ba
 pcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,90) ; 90 is the number of cycles zPlaySEGAPCMLoop takes to deliver one sample.
 dpcmLoopCounter function sampleRate, pcmLoopCounterBase(sampleRate,301/2) ; 301 is the number of cycles zPlayPCMLoop takes to deliver two samples.
 ; ---------------------------------------------------------------------------
-; Go_SoundTypes:
-Go_SoundPriorities:	dc.l SoundPriorities
-; Go_SoundD0:
-Go_SpecSoundIndex:	dc.l SpecSoundIndex
-Go_MusicIndex:		dc.l MusicIndex
-Go_SoundIndex:		dc.l SoundIndex
-; off_719A0:
-Go_SpeedUpIndex:	dc.l SpeedUpIndex
-Go_PSGIndex:		dc.l PSG_Index
+hd_prtb:		dc.l prtb
+hd_backtb:		dc.l backtb
+hd_bgmtb:		dc.l bgmtb
+hd_setb:		dc.l setb
+Go_SpeedUpIndex:dc.l SpeedUpIndex
+hd_envetb:		dc.l envetb
 ; ---------------------------------------------------------------------------
 ; PSG instruments used in music
 ; ---------------------------------------------------------------------------
-PSG_Index:
-		dc.l PSG1, PSG2, PSG3
-		dc.l PSG4, PSG5, PSG6
-		dc.l PSG7, PSG8, PSG9
-PSG1:		binclude "sound/psg/psg1.bin"
-PSG2:		binclude "sound/psg/psg2.bin"
-PSG3:		binclude "sound/psg/psg3.bin"
-PSG4:		binclude "sound/psg/psg4.bin"
-PSG6:		binclude "sound/psg/psg6.bin"
-PSG5:		binclude "sound/psg/psg5.bin"
-PSG7:		binclude "sound/psg/psg7.bin"
-PSG8:		binclude "sound/psg/psg8.bin"
-PSG9:		binclude "sound/psg/psg9.bin"
+envetb:
+		dc.l EV1, EV2, EV3
+		dc.l EV4, EV5, EV6
+		dc.l EV7, EV8, EV9
+EV1:		binclude "sound/PSG/psg1.bin"
+EV2:		binclude "sound/PSG/psg2.bin"
+EV3:		binclude "sound/PSG/psg3.bin"
+EV4:		binclude "sound/PSG/psg4.bin"
+EV6:		binclude "sound/PSG/psg6.bin"
+EV5:		binclude "sound/PSG/psg5.bin"
+EV7:		binclude "sound/PSG/psg7.bin"
+EV8:		binclude "sound/PSG/psg8.bin"
+EV9:		binclude "sound/PSG/psg9.bin"
 ; ---------------------------------------------------------------------------
 ; New tempos for songs during speed shoes
 ; ---------------------------------------------------------------------------
-; DANGER! several songs will use the first few bytes of MusicIndex as their main
+; DANGER! several songs will use the first few bytes of bgmtb as their main
 ; tempos while speed shoes are active. If you don't want that, you should add
 ; their "correct" sped-up main tempos to the list.
 ; byte_71A94:
@@ -78,7 +75,7 @@ SpeedUpIndex:
 ; ---------------------------------------------------------------------------
 ; Music	Pointers
 ; ---------------------------------------------------------------------------
-MusicIndex:
+bgmtb:
 ptr_mus81:	dc.l Music81
 ptr_mus82:	dc.l Music82
 ptr_mus83:	dc.l Music83
@@ -108,7 +105,7 @@ ptr_musend
 ; will only override special SFX and music will only override music.
 ; ---------------------------------------------------------------------------
 ; SoundTypes:
-SoundPriorities:
+prtb:
 		dc.b     $90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90	; $81
 		dc.b $90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90,$90	; $90
 		dc.b $80,$70,$70,$70,$70,$70,$70,$70,$70,$70,$68,$70,$70,$70,$60,$70	; $A0
@@ -632,7 +629,7 @@ PauseMusic:
 
 ; Sound_Play:
 CycleSoundQueue:
-		movea.l	(Go_SoundPriorities).l,a0
+		movea.l	(hd_prtb).l,a0
 		lea	sound_ram.buf1(a6),a1	; load music track number
 		_move.b	sound_ram.prfl(a6),d3	; Get priority of currently playing SFX
 		moveq	#sound_ram.v_soundqueue_end-sound_ram.kyflag-1,d4
@@ -794,7 +791,7 @@ Sound_PlayBGM:
 		movea.l	(Go_SpeedUpIndex).l,a4
 		subi.b	#bgm__First,d7
 		move.b	(a4,d7.w),sound_ram.v_speeduptempo(a6)
-		movea.l	(Go_MusicIndex).l,a4
+		movea.l	(hd_bgmtb).l,a4
 		lsl.w	#2,d7
 		movea.l	(a4,d7.w),a4		; a4 now points to (uncompressed) song data
 		moveq	#0,d0
@@ -981,7 +978,7 @@ Sound_PlaySFX:
 		move.b	#$80,sound_ram.f_push_playing(a6)	; Mark it as playing
 ; Sound_notA7:
 .sfx_notPush:
-		movea.l	(Go_SoundIndex).l,a0
+		movea.l	(hd_setb).l,a0
 		subi.b	#sfx__First,d7		; Make it 0-based
 		lsl.w	#2,d7			; Convert sfx ID into index
 		movea.l	(a0,d7.w),a3		; SFX data pointer
@@ -1105,7 +1102,7 @@ Sound_PlaySpecial:
 		bne.w	.locret				; Exit if it is
 		tst.b	sound_ram.f_fadein_flag(a6)	; Is music being faded in?
 		bne.w	.locret				; Exit if it is
-		movea.l	(Go_SpecSoundIndex).l,a0
+		movea.l	(hd_backtb).l,a0
 		subi.b	#spec__First,d7			; Make it 0-based
 		lsl.w	#2,d7
 		movea.l	(a0,d7.w),a3
@@ -1932,7 +1929,7 @@ PSGDoVolFX:	; This can actually be made a bit more efficient, see the comments f
 		moveq	#0,d0
 		move.b	SMPS_Track.VoiceIndex(a5),d0	; Get PSG tone
 		beq.s	SetPSGVolume
-		movea.l	(Go_PSGIndex).l,a0
+		movea.l	(hd_envetb).l,a0
 		subq.w	#1,d0
 		lsl.w	#2,d0
 		movea.l	(a0,d0.w),a0
@@ -2677,7 +2674,7 @@ Music93:	include "sound/music/Mus93 - Get Emerald.asm"
 ; ---------------------------------------------------------------------------
 ; Sound	effect pointers
 ; ---------------------------------------------------------------------------
-SoundIndex:
+setb:
 ptr_sndA0:	dc.l SoundA0
 ptr_sndA1:	dc.l SoundA1
 ptr_sndA2:	dc.l SoundA2
@@ -2731,7 +2728,7 @@ ptr_sndend
 ; ---------------------------------------------------------------------------
 ; Special sound effect pointers
 ; ---------------------------------------------------------------------------
-SpecSoundIndex:
+backtb:
 ptr_sndD0:	dc.l SoundD0
 ptr_specend
 
