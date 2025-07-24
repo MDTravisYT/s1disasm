@@ -76,25 +76,25 @@ SpeedUpIndex:
 ; Music	Pointers
 ; ---------------------------------------------------------------------------
 bgmtb:
-ptr_mus81:	dc.l Music81
-ptr_mus82:	dc.l Music82
-ptr_mus83:	dc.l Music83
-ptr_mus84:	dc.l Music84
-ptr_mus85:	dc.l Music85
-ptr_mus86:	dc.l Music86
-ptr_mus87:	dc.l Music87
-ptr_mus88:	dc.l Music88
-ptr_mus89:	dc.l Music89
-ptr_mus8A:	dc.l Music8A
-ptr_mus8B:	dc.l Music8B
-ptr_mus8C:	dc.l Music8C
-ptr_mus8D:	dc.l Music8D
-ptr_mus8E:	dc.l Music8E
-ptr_mus8F:	dc.l Music8F
-ptr_mus90:	dc.l Music90
-ptr_mus91:	dc.l Music91
-ptr_mus92:	dc.l Music92
-ptr_mus93:	dc.l Music93
+ptr_mus81:	dc.l S81
+ptr_mus82:	dc.l S82
+ptr_mus83:	dc.l S83
+ptr_mus84:	dc.l S84
+ptr_mus85:	dc.l S85
+ptr_mus86:	dc.l S86
+ptr_mus87:	dc.l S87
+ptr_mus88:	dc.l S88
+ptr_mus89:	dc.l S89
+ptr_mus8A:	dc.l S8A
+ptr_mus8B:	dc.l S8B
+ptr_mus8C:	dc.l S8C
+ptr_mus8D:	dc.l S8D
+ptr_mus8E:	dc.l S8E
+ptr_mus8F:	dc.l S8F
+ptr_mus90:	dc.l S90
+ptr_mus91:	dc.l S91
+ptr_mus92:	dc.l S92
+ptr_mus93:	dc.l S93
 ptr_musend
 ; ---------------------------------------------------------------------------
 ; Priority of sound. New music or SFX must have a priority higher than or equal
@@ -2632,43 +2632,43 @@ SonicDriverVer = 1 ; Tell SMPS2ASM that we're using Sonic 1's driver.
 ; ---------------------------------------------------------------------------
 ; Music data
 ; ---------------------------------------------------------------------------
-Music81:	include "sound/music/Mus81 - GHZ.asm"
+S81:	include "sound/music/Mus81 - GHZ.asm"
 		even
-Music82:	include "sound/music/Mus82 - LZ.asm"
+S82:	include "sound/music/Mus82 - LZ.asm"
 		even
-Music83:	include "sound/music/Mus83 - MZ.asm"
+S83:	include "sound/music/Mus83 - MZ.asm"
 		even
-Music84:	include "sound/music/Mus84 - SLZ.asm"
+S84:	include "sound/music/Mus84 - SLZ.asm"
 		even
-Music85:	include "sound/music/Mus85 - SYZ.asm"
+S85:	include "sound/music/Mus85 - SYZ.asm"
 		even
-Music86:	include "sound/music/Mus86 - SBZ.asm"
+S86:	include "sound/music/Mus86 - SBZ.asm"
 		even
-Music87:	include "sound/music/Mus87 - Invincibility.asm"
+S87:	include "sound/music/Mus87 - Invincibility.asm"
 		even
-Music88:	include "sound/music/Mus88 - Extra Life.asm"
+S88:	include "sound/music/Mus88 - Extra Life.asm"
 		even
-Music89:	include "sound/music/Mus89 - Special Stage.asm"
+S89:	include "sound/music/Mus89 - Special Stage.asm"
 		even
-Music8A:	include "sound/music/Mus8A - Title Screen.asm"
+S8A:	include "sound/music/Mus8A - Title Screen.asm"
 		even
-Music8B:	include "sound/music/Mus8B - Ending.asm"
+S8B:	include "sound/music/Mus8B - Ending.asm"
 		even
-Music8C:	include "sound/music/Mus8C - Boss.asm"
+S8C:	include "sound/music/Mus8C - Boss.asm"
 		even
-Music8D:	include "sound/music/Mus8D - FZ.asm"
+S8D:	include "sound/music/Mus8D - FZ.asm"
 		even
-Music8E:	include "sound/music/Mus8E - Sonic Got Through.asm"
+S8E:	include "sound/music/Mus8E - Sonic Got Through.asm"
 		even
-Music8F:	include "sound/music/Mus8F - Game Over.asm"
+S8F:	include "sound/music/Mus8F - Game Over.asm"
 		even
-Music90:	include "sound/music/Mus90 - Continue Screen.asm"
+S90:	include "sound/music/Mus90 - Continue Screen.asm"
 		even
-Music91:	include "sound/music/Mus91 - Credits.asm"
+S91:	include "sound/music/Mus91 - Credits.asm"
 		even
-Music92:	include "sound/music/Mus92 - Drowning.asm"
+S92:	include "sound/music/Mus92 - Drowning.asm"
 		even
-Music93:	include "sound/music/Mus93 - Get Emerald.asm"
+S93:	include "sound/music/Mus93 - Get Emerald.asm"
 		even
 
 ; ---------------------------------------------------------------------------
