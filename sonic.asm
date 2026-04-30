@@ -7220,10 +7220,12 @@ ConvertCollisionArray:
 
 		; This then converts the collision data into the final collision arrays
 		lea	(ConvRowColBlocks).l,a1
-		lea	(CollArray2).l,a2	; Convert the row-converted collision block data into final rotated collision array
+		lea	_physFindColTbl.Widths,a2 ; MDT: adjust pointer per zone
+		bsr.w	_physFindColTbl
 		bsr.s	.convertArray
 		lea	(RawColBlocks).l,a1
-		lea	(CollArray1).l,a2	; Convert the raw collision block data into final normal collision array
+		lea	_physFindColTbl.Heights,a2 ; MDT: adjust pointer per zone
+		bsr.w	_physFindColTbl
 
 
 .convertArray:
